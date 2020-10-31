@@ -7,10 +7,10 @@
                     @babel/preset-env 提供了一个 useBuiltIns 参数，设置值为 usage 时，就只会包含代码需要的 polyfill 。
                     配置此参数的值为 usage ，必须要同时设置 corejs (如果不设置，会给出警告，默认使用的是"corejs": 2) ，注意: 这里仍然需要安装 @babel/polyfill(当前 @babel/polyfill 版本默认会安装 "corejs": 2):
                 */
-                "useBuiltIns": "usage",
+                "useBuiltIns": "usage",  // 003：就只会包含代码需要的 polyfill 【Q: 每个文件都注入相同的解析代码，会冗余】
                 "corejs": 3
             }
         ]
-    ] // "@babel/preset-env"【预设】会根据你配置的目标环境，生成插件列表来编译
-    // "plugins": ["./node_modules/@babel/plugin-transform-arrow-functions"] // 想在 babelrc 里用，就要先安装 
+    ] // 002："@babel/preset-env"【预设】会根据你配置的目标环境，生成插件列表来编译【Q: 引用了大量不需要的 polyfill，能不能按需加载】
+    // "plugins": ["./node_modules/@babel/plugin-transform-arrow-functions"] // 001：想在 babelrc 里用，就要先安装 ；【Q: 一个一个安装太麻烦】
 }

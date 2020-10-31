@@ -11,6 +11,11 @@
                 "corejs": 3
             }
         ]
-    ] // 002："@babel/preset-env"【预设】会根据你配置的目标环境，生成插件列表来编译【Q: 引用了大量不需要的 polyfill，能不能按需加载】
+    ], // 002："@babel/preset-env"【预设】会根据你配置的目标环境，生成插件列表来编译【Q: 引用了大量不需要的 polyfill，能不能按需加载】
     // "plugins": ["./node_modules/@babel/plugin-transform-arrow-functions"] // 001：想在 babelrc 里用，就要先安装 ；【Q: 一个一个安装太麻烦】
+    "plugins": [
+        [
+            "@babel/plugin-transform-runtime"
+        ]
+    ]
 }

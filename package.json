@@ -1,0 +1,21 @@
+{
+  "name": "GrokLearn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "utils.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wustdong/GrokLearn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wustdong/GrokLearn/issues"
+  },
+  "homepage": "https://github.com/wustdong/GrokLearn#readme"
+}

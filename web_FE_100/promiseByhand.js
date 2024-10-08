@@ -64,15 +64,15 @@ PromiseByHand.prototype.then = function (onFulfilled, onRejected) {
         if(this.state === REJECTED){
                 typeof onRejected === 'function' && onRejected(this.reason);
         }
-    };
+};
 
 
 var myP = new PromiseByHand(function(resolve, reject){
-console.log('执行')
-setTimeout(function(){
-        resolve(4);
-        reject(3)
-}, 1000)
+        console.log('执行')
+        setTimeout(function(){
+                resolve(4);
+                reject(3)
+        }, 1000)
 });
 
 myP.then(
@@ -85,3 +85,11 @@ myP.then(
 );
 
 // 打印 执行 成功4
+
+
+/**
+ * 目前发现的问题，then 不能链式调用
+ * 
+ * 【链式调用】在我们使用 Promise 的时候，当 then 函数中 return 了一个值，
+ * 不管是什么值，我们都能在下一个 then 中获取到，这就是所谓的then 的链式调用
+ */

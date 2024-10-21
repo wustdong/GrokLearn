@@ -23,7 +23,7 @@ function calculator(s) {
         if(!(+c) || i == sLen - 1) {
             // 当前是运算符，需要处理前面的运算结果
             
-            switch(c) {
+            switch(sign) {
                 case '+':
                     arr.push(num);
                     break;
@@ -35,10 +35,13 @@ function calculator(s) {
             sign = c;
         }
     }
-
+    console.log('arr', arr)
     const sum  = arr.reduce((acc, cur) => acc + cur, 0);
 
     console.log('sum: ', sum)
 }
 const s1 = '2+3-4';
+// const s2 = '2+3*5-4';
+
 calculator(s1);
+// calculator(s2);

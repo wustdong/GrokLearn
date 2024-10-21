@@ -2,6 +2,7 @@
  * 提示：
  * ·表达式中的所有整数都是*非负整数*，且在范围 [0, 231 - 1] 内
  * ·默认表达式均合法
+ * 参考：https://leetcode.cn/problems/basic-calculator-ii/solutions/91271/chai-jie-fu-za-wen-ti-shi-xian-yi-ge-wan-zheng-ji-
  */
 
 function calculator(s) {
@@ -30,6 +31,14 @@ function calculator(s) {
                 case '-':
                     arr.push(-num);
                     break;
+                case '*':
+                    let pre = arr.pop();
+                    arr.push(pre * num);
+                    break;
+                case '/':
+                    let pre2 = arr.pop();
+                    arr.push(pre2 / num);
+                    break;
             }
             num = 0;
             sign = c;
@@ -41,7 +50,7 @@ function calculator(s) {
     console.log('sum: ', sum)
 }
 const s1 = '2+3-4';
-// const s2 = '2+3*5-4';
+const s2 = '2+3*5-4';
 
 calculator(s1);
-// calculator(s2);
+calculator(s2);

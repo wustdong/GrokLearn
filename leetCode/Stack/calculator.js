@@ -7,7 +7,6 @@
 
 function calculator(s) {
     const sLen = s.length;
-    // 1、字符串转整数
     const arr = [];
     // 记录算式中的数字
     let num = 0;
@@ -17,11 +16,13 @@ function calculator(s) {
     for (let i = 0; i < sLen; i++) {
         let c = s[i];
 
+        // 1、字符串转整数
         if ((+c) && (+c) <= 9 && (+c) >=0) {
             num = 10 * num + (+c);
         }
 
-        if(!(+c) || i == sLen - 1) {
+        // 2、处理运算符
+        if((!(+c) && c!== ' ') || i == sLen - 1) {
             // 当前是运算符，需要处理前面的运算结果
             
             switch(sign) {
@@ -50,7 +51,9 @@ function calculator(s) {
     console.log('sum: ', sum)
 }
 const s1 = '2+3-4';
-const s2 = '2+3*5-4';
+const s2 = '2+3*5-4/2';
+const s3 = '2 + 4*8 - 6/3';
 
 calculator(s1);
 calculator(s2);
+calculator(s3)

@@ -9,7 +9,7 @@
     <div>
         <button id="btn">点击我</button>
     </div>
-    <script>
+    <!-- <script>
         function MyThrottle(fn, delay) {
             let lastT;
             console.log('my throttle this', this) // window
@@ -36,7 +36,36 @@
         // btn && btn.addEventListener('click', send)// this 指向btn
         // btn && btn.addEventListener('click', () => send())// this 指向window
 
-    </script>
+    </script> -->
 
+    <script>
+
+        function MyDebounce(fn, delay) {
+            let timer;
+
+            return function() {
+                const context = this;
+                const args = arguments;
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        fn.apply(context, args)
+                    }, delay)
+                }else {
+                    timer = setTimeout(() => {
+                        fn.apply(context, args)
+                    }, delay)
+                }
+            }
+        }
+        function deTest() {
+            console.log('deTest，我被点了', arguments)
+            console.log('this in deTest', this)
+        }
+
+        const bindDeTest = MyDebounce(deTest, 3000); 
+        const btn2 = document.getElementById('btn');
+        btn2 && btn2.addEventListener('click', bindDeTest)
+    </script>
 </body>
 </html>

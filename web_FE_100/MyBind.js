@@ -11,13 +11,12 @@ Function.prototype.MyBind = function (context) {
     if (typeof this  !=='function') {
         return new TypeError('Error')
     }
-    console.log('my bind arg', arguments);
-    console.log('array arg', [...arguments])
-    const args = [...arguments].slice(1);
+
+    const args = Array.prototype.slice.call(arguments, 1)
     const self = this;
 
     function boundFn() {
-        console.log('Fn arg', arguments);
+        // console.log('boundFn arguments', arguments);
         const isNew = this instanceof boundFn;
         return self.apply(isNew ? this : context, args.concat(...arguments))
     }
@@ -25,15 +24,29 @@ Function.prototype.MyBind = function (context) {
     return boundFn;
 }
 
-function Person(name) {
-    this.name = name;
+function Person(len) {
+    this.len = len;
 }
   
-const obj = { name: 'Lucy' };
-const BoundPerson = Person.MyBind(obj); // 将Person 的this 改为obj
+const obj = { len: 'Lucy' };
+// const BoundPerson = Person.MyBind(obj); // 将Person 的this 改为obj
+const originBoundPerson = Person.bind(obj);
+/**
+ * originBoundPerson 是一个新函数，
+ * 它的this 被绑定到obj,但是originBoundPerson本身不是Person 的实例，
+ * 所以，没有直接设置为obj.len
+ */
+console.log('originBoundPerson len', originBoundPerson.len); // undefined
+originBoundPerson('newLen');
+/**
+ * 可通过直接调用originBoundPerson。看看 this 是否绑定到 obj
+ */
+console.log('obj.len', obj.len); // 应该输出 'newLen'
 
-const instance = new BoundPerson('Martin'); // 这里是new ，新生成一个对象，而不是继续指向obj
-console.log(instance.name);  // 输出 'Martin'
+// console.log(originBoundPerson.toString());
+
+// const instance = new BoundPerson('Martin'); // 这里是new ，新生成一个对象，而不是继续指向obj
+// console.log('instance.len', instance.len);  // 输出 'Martin'
 /**
  * why we need change this？
  */

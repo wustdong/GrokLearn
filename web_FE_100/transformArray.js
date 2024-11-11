@@ -61,42 +61,42 @@ const arr2 = [
     },
 ]
 // 找到 arr中是node 父节点的节点
-function findParent(node,arr, result) {
-    console.log('find parent', node)
-   if (node.parent || node.parent=== 0) {
-    arr.map(item => {
-        // console.log('item--', item)
+function findParent(node,arr, res) {
+    // console.log('find parent', node)
+    for(let i =0;i< arr.length;i++) {
+        const item = arr[i];
         if (item.id === node.parent) {
-            if (!item.children) item.children = [];
-            item.children.push(node);
-            console.log('找到了', result)
-        } else if(item.children) {
-            findParent(node, item.children);
-        } else {
-            console.log('没有找到')
-        }
-     })
-   }
+                if (!item.children) item.children = [];
+                item.children.push(node);
+                console.log('找到了', res)
+                break;
+            } else if(item.children) {
+                console.log('item.children', item.children)
+                findParent(node, item.children, res);
+            }
+    }
 }
 
 function convert(arr) {
     let idArr = [];
     let result = [];
     // 把首层无父节点的节点梳理出来
-    for(let i =0;i< arr.length;i++) {
-        idArr.push(arr[i].id);
-        if (!arr[i].parent && arr[i].parent !== 0) {
-            result.push(arr[i]);
-        }
-    }
+    // for(let i =0;i< arr.length;i++) {
+    //     idArr.push(arr[i].id);
+    //     if (!arr[i].parent && arr[i].parent !== 0) {
+    //         result.push(arr[i]);
+    //     }
+    // }
     console.log('result---half', result);
     for(let i =0;i< arr.length;i++) {
         if (arr[i].parent || arr[i].parent === 0) {
-            // 在result 首层找到对应的父节点
+            // 在result 首层找到对应的父节点，一开始只能处理首层层级的，嵌套层级的因为此时result 还没放在上面，就无从定位
             findParent(arr[i],arr, result);
         }
     }
     console.log('result-----', JSON.stringify(result))
+    console.log('rrrr', result)
+    console.log('arr', arr)
 }
 
 convert(arr)

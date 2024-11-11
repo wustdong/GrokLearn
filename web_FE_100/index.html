@@ -6,66 +6,110 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <button id="btn">点击我</button>
-    </div>
-    <!-- <script>
-        function MyThrottle(fn, delay) {
-            let lastT;
-            console.log('my throttle this', this) // window
-            return function() {
-                console.log('in cb this', this) // window
-                let context = this,
-                    args = arguments;
-                if(!lastT || Date.now() - lastT > delay) {
-                    fn.apply(context, args);
-
-                    lastT = Date.now();
-                } 
-            }   
-        }
-
-        function send() {
-            console.log('阿达，我被点了', arguments)
-            console.log('this in send', this) // btn 元素
-        }
-
-        const bindThrSend = MyThrottle(send, 3000); // 这句代码执行时，在window 下，所以在MyThrottle外部打印this 是window
-        const btn = document.getElementById('btn');
-        btn && btn.addEventListener('click', bindThrSend) //bindthrSend 调用时this 指向btn
-        // btn && btn.addEventListener('click', send)// this 指向btn
-        // btn && btn.addEventListener('click', () => send())// this 指向window
-
-    </script> -->
-
     <script>
-
-        function MyDebounce(fn, delay) {
-            let timer;
-
-            return function() {
-                const context = this;
-                const args = arguments;
-                if (timer) {
-                    clearTimeout(timer);
-                    timer = setTimeout(() => {
-                        fn.apply(context, args)
-                    }, delay)
-                }else {
-                    timer = setTimeout(() => {
-                        fn.apply(context, args)
-                    }, delay)
-                }
+  const arr = [
+    {
+        id: 0,
+        name: 'a',
+    },
+    {
+        id: 1,
+        name: 'b',
+        parent: 0,
+    },
+    {
+        id: 2,
+        name: 'c',
+        parent: 3,
+    },
+    {
+        id: 3,
+        name: 'd',
+        parent: 0,
+    },
+    {
+        id: 4,
+        name: 'e',
+        parent: 1,
+    },
+    {
+        id: 5,
+        name: 'f',
+    },
+];
+const arr2 = [
+    {
+        id: 0,
+        name: 'a',
+        children: [
+            {
+                id: 1,
+                name: 'b',
+                children: [
+                    {
+                        id: 4,
+                        name: 'e'
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: 'b',
+                children: [
+                    {
+                        id: 2,
+                        name: 'c',
+                    }
+                ],
+            },
+        ],
+    },
+    {
+        id: 5,
+        name: 'b',
+    },
+]
+// 找到 arr中是node 父节点的节点
+function findParent(node,arr, res) {
+    // console.log('find parent', node)
+    for(let i =0;i< arr.length;i++) {
+        const item = arr[i];
+        if (item.id === node.parent) {
+                if (!item.children) item.children = [];
+                item.children.push(node);
+                console.log('找到了', res)
+                break;
+            } else if(item.children) {
+                console.log('item.children', item.children)
+                findParent(node, item.children, res);
             }
-        }
-        function deTest() {
-            console.log('deTest，我被点了', arguments)
-            console.log('this in deTest', this)
-        }
+    }
+}
 
-        const bindDeTest = MyDebounce(deTest, 3000); 
-        const btn2 = document.getElementById('btn');
-        btn2 && btn2.addEventListener('click', bindDeTest)
+function convert(arr) {
+    let idArr = [];
+    let result = [];
+    // 把首层无父节点的节点梳理出来
+    // for(let i =0;i< arr.length;i++) {
+    //     idArr.push(arr[i].id);
+    //     if (!arr[i].parent && arr[i].parent !== 0) {
+    //         result.push(arr[i]);
+    //     }
+    // }
+    console.log('result---half', result);
+    for(let i =0;i< arr.length;i++) {
+        if (arr[i].parent || arr[i].parent === 0) {
+            // 在result 首层找到对应的父节点，一开始只能处理首层层级的，嵌套层级的因为此时result 还没放在上面，就无从定位
+            findParent(arr[i],arr, result);
+        }
+    }
+    console.log('result-----', JSON.stringify(result))
+    console.log('rrrr', result)
+    console.log('arr', arr)
+}
+
+convert(arr)
+
     </script>
 </body>
 </html>

@@ -60,7 +60,24 @@ const arr2 = [
         name: 'b',
     },
 ]
-
+// 找到 arr中是node 父节点的节点
+function findParent(node,arr, result) {
+    console.log('find parent', node)
+   if (node.parent || node.parent=== 0) {
+    arr.map(item => {
+        // console.log('item--', item)
+        if (item.id === node.parent) {
+            if (!item.children) item.children = [];
+            item.children.push(node);
+            console.log('找到了', result)
+        } else if(item.children) {
+            findParent(node, item.children);
+        } else {
+            console.log('没有找到')
+        }
+     })
+   }
+}
 
 function convert(arr) {
     let idArr = [];
@@ -76,31 +93,10 @@ function convert(arr) {
     for(let i =0;i< arr.length;i++) {
         if (arr[i].parent || arr[i].parent === 0) {
             // 在result 首层找到对应的父节点
-            for(let j = 0;j<result.length;j++) {
-                if(result[j].id === arr[i].parent) {
-                    if(!result[j].children) result[j].children = [];
-                    result[j].children.push({
-                        id: arr[i].id,
-                        name: arr[i].name
-                    })
-                    break;
-                } else if (result[j].children) {
-                    for(let k;k <result[j].children.length;k++) {
-                        if(result[j].children[k].id === arr[i].parent) {
-                            if (result[j].children[k].children) {
-                                result[j].children[k].children.push({
-                                    id: arr[i].id,
-                                    name: arr[i].name
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-           
+            findParent(arr[i],arr, result);
         }
     }
-    console.log('result-----', result)
+    console.log('result-----', JSON.stringify(result))
 }
 
 convert(arr)

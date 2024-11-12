@@ -60,43 +60,20 @@ const arr2 = [
         name: 'b',
     },
 ]
-// 找到 arr中是node 父节点的节点
-function findParent(node,arr, res) {
-    // console.log('find parent', node)
-    for(let i =0;i< arr.length;i++) {
-        const item = arr[i];
-        if (item.id === node.parent) {
-                if (!item.children) item.children = [];
-                item.children.push(node);
-                console.log('找到了', res)
-                break;
-            } else if(item.children) {
-                console.log('item.children', item.children)
-                findParent(node, item.children, res);
-            }
-    }
-}
+function convertByMap(arr) {
+    const mapArr = new Map();
+    const result = [];
+    arr.map(item => {
+        mapArr.set(item.id, {...item, children: []});
+    })
 
-function convert(arr) {
-    let idArr = [];
-    let result = [];
-    // 把首层无父节点的节点梳理出来
-    // for(let i =0;i< arr.length;i++) {
-    //     idArr.push(arr[i].id);
-    //     if (!arr[i].parent && arr[i].parent !== 0) {
-    //         result.push(arr[i]);
-    //     }
-    // }
-    console.log('result---half', result);
-    for(let i =0;i< arr.length;i++) {
-        if (arr[i].parent || arr[i].parent === 0) {
-            // 在result 首层找到对应的父节点，一开始只能处理首层层级的，嵌套层级的因为此时result 还没放在上面，就无从定位
-            findParent(arr[i],arr, result);
+    arr.map(item => {
+        if(item.parent === undefined) {
+            result.push(mapArr.get(item.id)); // 这里也是需要从mapArr 中取出来
+        } else {
+            let matchItem = mapArr.get(item.parent)
+            matchItem.children.push(mapArr.get(item.id));// 注意这里的需要是从map取出的对象，而不是item 
         }
-    }
-    console.log('result-----', JSON.stringify(result))
-    console.log('rrrr', result)
-    console.log('arr', arr)
+    })
 }
-
-convert(arr)
+convertByMap(arr)

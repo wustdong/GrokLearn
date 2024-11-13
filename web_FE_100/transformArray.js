@@ -76,4 +76,34 @@ function convertByMap(arr) {
         }
     })
 }
-convertByMap(arr)
+convertByMap(arr);
+function convertByRecursion(arr) {
+    // 定义递归函数，用于查找并构建子节点
+    function buildTree(node, arr) {
+        // 为当前节点查找并构建所有直接子节点
+        node.children = arr
+            .filter(item => item.parent === node.id)
+            .map(item => buildTree(item, arr)); // 递归构建子节点
+        // 如果没有子节点，删除 children 属性
+        if (node.children.length === 0) {
+            delete node.children;
+        }
+        return node;
+    }
+
+    // 构建顶层结构：找到所有没有父节点的顶层节点，并递归构建其子节点
+    return arr
+        .filter(item => item.parent === undefined)
+        .map(item => buildTree(item, arr));
+}
+
+const arr333 = [
+    { id: 0, name: 'a' },
+    { id: 1, name: 'b', parent: 0 },
+    { id: 2, name: 'c', parent: 3 },
+    { id: 3, name: 'd', parent: 0 },
+    { id: 4, name: 'e', parent: 1 },
+    { id: 5, name: 'f' },
+];
+
+console.log(JSON.stringify(convertByRecursion(arr333), null, 2));

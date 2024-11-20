@@ -1,32 +1,28 @@
 /**
  * @param {number[]} nums
  * @return {number[]}
+ * 要求： 不使用任何内置方法
  */
 
-var findSmallIndex = function(arr) {
-    var smallIndex = 0;
-    var smallNum = arr[0];
 
-    for(let i= 0;i<arr.length;i++) {
-        if(arr[i] < smallNum) {
-            smallNum = arr[i];
-            smallIndex = i;
+var selectionSort = function(nums) {
+ var len = nums.length;
+ for(let i= 0;i<len -1;i++) {
+    let smallIndex = i;
+
+    for(let j = i + 1; j < len; j++) {
+        if(nums[j] < nums[i]) {
+            smallIndex = j;
         }
     }
 
-    return smallIndex
-}
-var selectionSort = function(nums) {
- var result = [];
- for(let i= 0;i<nums.length;i++) {
-    var smallIndex = findSmallIndex(nums);
-
-    result.push(nums[smallIndex])
-
-    nums[smallIndex] = undefined;
+    if(smallIndex !== i) {
+        // es6 数组结构特性
+        [nums[i], nums[smallIndex]]= [nums[smallIndex], nums[i]]
+    }
  }
 
- return result;
+ return nums;
 };
 
 // 示例

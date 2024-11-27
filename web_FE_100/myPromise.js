@@ -54,7 +54,7 @@ class MyPromise {
         try {
           let x = cb(this.promiseResult);
           // console.log('x---', x)
-          if (typeof x === MyPromise) {
+          if (x instanceof MyPromise) {
             x.then(resolve, reject);
           } else {
             resolve(x);
@@ -66,24 +66,24 @@ class MyPromise {
       }
       if (this.status === FULFILLED) {
         // onFulfilled(this.value)
-        resolvePromise(onFulfilled);
+        setTimeout(() => resolvePromise(onFulfilled));
       }
 
       if (this.status === REJECTED) {
         // onRejected(this.reason)
-        resolvePromise(onRejected);
+        setTimeout(() => resolvePromise(onRejected));
       }
 
       if (this.status === PENDING) {
         // 如果promise的状态是 pending，需要将 onFulfilled 和 onRejected 函数存放起来，等待状态确定后，再依次将对应的函数执行
-        this.onResolvedCallbacks.push(() => {
-          onFulfilled(this.promiseResult)
-        });
+        this.onResolvedCallbacks.push(() => 
+          setTimeout(() => resolvePromise(onFulfilled))
+        );
 
         // 如果promise的状态是 pending，需要将 onFulfilled 和 onRejected 函数存放起来，等待状态确定后，再依次将对应的函数执行
-        this.onRejectedCallbacks.push(()=> {
-          onRejected(this.promiseResult);
-        })
+        this.onRejectedCallbacks.push(()=> 
+          setTimeout(() => resolvePromise(onRejected))
+        )
       }
     });
     
@@ -91,12 +91,25 @@ class MyPromise {
     
   }
 }
-
-// 【测试用例 003】
-const promise3 = new MyPromise((resolve, reject) => {
-  console.log('promise exectuor')
+//【测试用例 004】
+const promise4 = new MyPromise((resolve, reject) => {
+  console.log('promise executor');
   resolve('成功');
-}).then(22).then(res => console.log('promise then then res:', res))
+}).then((res) => {
+  console.log('promise then res:', res);
+  return new MyPromise((resolve) => {
+      setTimeout(() => {
+          resolve('异步成功');
+      }, 1000);
+  });
+}).then((res) => {
+  console.log('promise then then res:', res);
+});
+// 【测试用例 003】
+// const promise3 = new MyPromise((resolve, reject) => {
+//   console.log('promise exectuor')
+//   resolve('成功');
+// }).then(22).then(res => console.log('promise then then res:', res))
 // // 【测试用例 001】
 // const promise1 = new MyPromise((resolve, reject) => {
 //     resolve('成功');

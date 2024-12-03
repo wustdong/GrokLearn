@@ -4,15 +4,15 @@
  * leetcode 167  Two Sum II-Input array is sorted
  */
 
-function search(nums, target) {
+function search(nums, restTarget) {
     let i = 0;
     let j = nums.length - 1;
 
-    while(i < j) {
+    while(i <= j) {
         let mid = Math.floor((i + j ) /2);
-        if(nums[mid] > target) {
+        if(nums[mid] > restTarget) {
             j = mid - 1;
-        } else if(nums[mid] < target) {
+        } else if(nums[mid] < restTarget) {
             i = mid + 1;
         } else {
             return mid;
@@ -26,16 +26,17 @@ function Solution(nums, target) {
 
     for(let i = 0; i < nums.length; i++) {
         let a = nums[i];
-        let b = search(nums, target - a);
-
-        if( b !== -1)  {
-            console.log('solution: ', i+1, b+1)
-            return [i + 1, b + 1];
+        let anotherIndex = search(nums, target - a);
+        console.log('anotherIndex', anotherIndex)
+        if( anotherIndex !== -1 && anotherIndex !== i)  {
+            console.log('solution: ', i+1, anotherIndex+1)
+            return [i + 1, anotherIndex + 1];
         }
     }
 
-    throw 'input is illegal'
+    // throw ('input is illegal')
+    console.log('inpout is illegals')
 }
-const nums = [2,7,11,15];
-const target = 9;
+const nums = [2,3,4];
+const target = 6;
 Solution(nums, target)

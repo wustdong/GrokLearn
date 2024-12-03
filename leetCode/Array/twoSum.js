@@ -27,9 +27,12 @@ function Solution(nums, target) {
     for(let i = 0; i < nums.length; i++) {
         let a = nums[i];
         let anotherIndex = search(nums, target - a);
-        console.log('anotherIndex', anotherIndex)
+        console.log('anotherIndex', anotherIndex, i)
         if( anotherIndex !== -1 && anotherIndex !== i)  {
-            console.log('solution: ', i+1, anotherIndex+1)
+            console.log('solution: ', i+1, anotherIndex+1);
+            if (i > anotherIndex) {
+                return [anotherIndex + 1, i +1]
+            }
             return [i + 1, anotherIndex + 1];
         }
     }
@@ -37,6 +40,6 @@ function Solution(nums, target) {
     // throw ('input is illegal')
     console.log('inpout is illegals')
 }
-const nums = [2,3,4];
-const target = 6;
+const nums = [1,2,3,4,4,9,56,90];
+const target = 8;
 Solution(nums, target)

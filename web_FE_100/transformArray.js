@@ -63,11 +63,11 @@ const arr2 = [
 function convertByMap(arr) {
     const mapArr = new Map();
     const result = [];
-    arr.map(item => {
+    arr.forEach(item => {
         mapArr.set(item.id, {...item, children: []});
     })
 
-    arr.map(item => {
+    arr.forEach(item => {
         if(item.parent === undefined) {
             result.push(mapArr.get(item.id)); // 这里也是需要从mapArr 中取出来
         } else {

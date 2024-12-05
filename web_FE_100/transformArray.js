@@ -71,6 +71,10 @@ function convertByMap(arr) {
         if(item.parent === undefined) {
             result.push(mapArr.get(item.id)); // 这里也是需要从mapArr 中取出来
         } else {
+            /**
+             * Map 存储的是对值的引用，而不是值的副本。
+             * 修改 Map 中存储的值，外部获取的值也会同步更新
+             */
             let matchItem = mapArr.get(item.parent)
             matchItem.children.push(mapArr.get(item.id));// 注意这里的需要是从map取出的对象，而不是item 
         }

@@ -12,7 +12,8 @@
     },
 
     // `vue-tsc --build` produces a .tsbuildinfo file for incremental type-checking.
-    // Specified here to keep it out of the root directory.
+    // tsconfig.json中的 tsBuildInfoFile​ 是 TypeScript 3.4+ 引入的编译器选项
+    // 用于配置增量编译和项目引用功能生成的文件位置。
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
   }
 }
